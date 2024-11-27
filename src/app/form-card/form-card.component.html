@@ -1,0 +1,77 @@
+<form [formGroup]="addCardForm" (submit)="onSubmit()">
+  <div>
+    <label for="cardNumber" class="form-label mt-3">Card Number</label>
+    <input
+      type="number"
+      class="form-control"
+      id="cardNumber"
+      formControlName="cardNumberControl"
+      [appMaxLengthNumber]="16"
+      appOnlyNumbers
+      (input)="updateCard()"
+    />
+  </div>
+  <div>
+    <small>{{ validateTitleControl(cardNumberControl) }}</small>
+  </div>
+
+  <div>
+    <label for="cardHolderName" class="form-label">Card Holder</label>
+    <input
+      type="text"
+      class="form-control"
+      id="cardHolderName"
+      formControlName="cardHolderNameControl"
+      (input)="updateCard()"
+    />
+  </div>
+  <div>
+    <small>{{ validateTitleControl(cardHolderNameControl) }}</small>
+  </div>
+
+  <div class="expiration-date">
+    <label class="form-label">Expiration Date</label>
+    <div class="expiration-date-inner">
+      <select class="custom-select" formControlName="cardMonthControl" (change)="updateCard()">
+        <option disabled selected>Month</option>
+        <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+      </select>
+
+      <select class="custom-select" formControlName="cardYearControl" (change)="updateCard()">
+        <option disabled selected>Year</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="expiration-date-errors">
+    <div>
+      <small>{{ validateTitleControl(cardMonthControl) }}</small>
+    </div>
+    <div>
+      <small>{{ validateTitleControl(cardYearControl) }}</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="cardCvv" class="form-label">CVV</label>
+    <input
+      type="number"
+      class="form-control"
+      id="cardCvv"
+      [appMaxLengthNumber]="3"
+      appOnlyNumbers
+      min="100"
+      max="999"
+      formControlName="cardCvvControl"
+      (focus)="flipCard()"
+      (blur)="flipCard()"
+      (input)="updateCard()"
+    />
+  </div>
+  <div>
+    <small>{{ validateTitleControl(cardCvvControl) }}</small>
+  </div>
+
+  <button type="submit" class="btn">Submit</button>
+</form>

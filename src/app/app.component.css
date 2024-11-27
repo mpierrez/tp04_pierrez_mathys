@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: fit-content;
+}
+
+.form {
+  border-right: 2px solid #ccc;
+}
+
+.form, .list {
+  flex: 1;
+}

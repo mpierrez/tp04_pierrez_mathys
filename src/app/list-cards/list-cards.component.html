@@ -1,0 +1,87 @@
+<h1 class="text-center my-4">List of cards</h1>
+<div *ngIf="valServ() && valServ().length > 0; else noCards" class="container">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="cardNumber">Card Number</th>
+        <th class="cardHolderName">Card Holder</th>
+        <th class="cardExpirationDate">Expiration Date</th>
+        <th class="cardCvv">CVV</th>
+        <th class="cardActions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let card of cards">
+        <td>
+          <ng-container *ngIf="!card.isEditing; else editCardNumber">
+            <p>{{ card.cardNumber | maskCreditCard }}</p>
+          </ng-container>
+          <ng-template #editCardNumber>
+            <form [formGroup]="editCardForm">
+              <input formControlName="cardNumberControl" class="form-control cardNumber" [appMaxLengthNumber]="16" appOnlyNumbers/>
+              <small>{{ validateTitleControl(cardNumberControl) }}</small>
+            </form>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="!card.isEditing; else editCardHolderName">
+            <p>{{ card.cardHolderName }}</p>
+          </ng-container>
+          <ng-template #editCardHolderName>
+            <form [formGroup]="editCardForm">
+              <input formControlName="cardHolderNameControl" class="form-control cardHolderName" />
+              <small>{{ validateTitleControl(cardHolderNameControl) }}</small>
+            </form>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="!card.isEditing; else editExpiration">
+            <p>{{ card.cardMonth | formatCardMonth }}/{{ card.cardYear | formatCardYear }}</p>
+          </ng-container>
+          <ng-template #editExpiration>
+            <form [formGroup]="editCardForm" class="cardExpirationDate">
+              <select class="custom-select month" formControlName="cardMonthControl">
+                <option disabled selected>Month</option>
+                <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+              </select>
+
+              <select class="custom-select year" formControlName="cardYearControl">
+                <option disabled selected>Year</option>
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+              </select>
+            </form>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="!card.isEditing; else editCardCvv">
+            <p>{{ card.cardCvv }}</p>
+          </ng-container>
+          <ng-template #editCardCvv>
+            <form [formGroup]="editCardForm">
+              <input formControlName="cardCvvControl" class="form-control cardCvv" [appMaxLengthNumber]="3" appOnlyNumbers/>
+              <small>{{ validateTitleControl(cardCvvControl) }}</small>
+            </form>
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="card.isEditing; else actionButtons">
+            <div class="cardActions">
+              <button (click)="saveCard(card)" class="btn btn-success">Save</button>
+              <button (click)="cancelEdit(card)" class="btn btn-secondary">Cancel</button>
+            </div>
+          </ng-container>
+          <ng-template #actionButtons>
+            <div class="cardActions">
+              <button (click)="editCard(card)" class="btn btn-primary">Edit</button>
+              <button (click)="deleteCard(card)" class="btn btn-danger">Delete</button>
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noCards>
+  <p class="text-center text-muted">No cards available.</p>
+</ng-template>

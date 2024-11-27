@@ -1,0 +1,43 @@
+small {
+  color: red;
+}
+
+th.cardExpirationDate, p.cardExpirationDate {
+  width: 400px;
+}
+
+.month {
+  width: 65px;
+}
+
+.year {
+  width: 80px;
+}
+
+td .cardActions, td .cardExpirationDate {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+
+input.cardNumber {
+  width: 180px;
+}
+
+th.cardNumber, p.cardNumber {
+  width: 600px;
+}
+
+th.cardHolderName {
+  width: 350px;
+}
+
+input.cardHolderName {
+  width: 200px;
+}
+
+.cardCvv {
+  width: 65px;
+  text-align: center;
+}
